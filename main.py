@@ -44,7 +44,7 @@ def get_stock_name(code):
     url = f"https://finance.naver.com/item/main.nhn?code={code}"
     res = requests.get(url)
     import re
-    m = re.search(r'<title>(.+?) : 네이버 금융</title>', res.text)
+    m = re.search(r'<title>(.+?) : 네이버페이 증권</title>', res.text)
     if m:
         return m.group(1)
     return code
