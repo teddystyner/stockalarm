@@ -25,7 +25,7 @@ def fetch_price_data(code):
         print(f"{code} 빈 데이터 또는 응답 없음")
         return None
        
-     try:
+    try:
         data = ast.literal_eval(data_str)
     except Exception as e:
         print(f"{code} 데이터 파싱 오류: {e}")
