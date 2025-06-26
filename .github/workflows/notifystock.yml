@@ -2,8 +2,8 @@ name: Notify Stocks
 
 on:
   schedule:
-    - cron: '5 23 * * *'   # 매일 08:05 KST (UTC 기준 23:05)
-    - cron: '5 0 * * *'    # 매일 09:05 KST (UTC 기준 00:05)
+    - cron: '5 23 * * *'   # 한국시간 08:05
+    - cron: '5 0 * * *'    # 한국시간 09:05
   workflow_dispatch:
 
 jobs:
