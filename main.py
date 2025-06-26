@@ -16,8 +16,18 @@ def fetch_price_data(code):
         "User-Agent": "Mozilla/5.0"
     }
     res = requests.get(url, headers=headers)
-    data = res.text.strip().replace("\n", "").replace("\t", "")
-    data = json.loads(data[1:-1])
+    data_str = res.text.strip()
+    
+    if not data_str or data_str == '[]':
+        print(f"{code} 빈 데이터 또는 응답 없음")
+        return None
+    
+    try:
+        data = json.loads(data_str[1:-1])
+    except Exception as e:
+        print(f"{code} JSON 파싱 오류: {e}")
+        return None
+        
     df = pd.DataFrame(data[1:], columns=data[0])
     df = df.rename(columns={'날짜': 'date', '종가': 'close', '시가': 'open'})
     df = df[['date', 'open', 'close']].copy()
