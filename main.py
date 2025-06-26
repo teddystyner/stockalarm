@@ -17,7 +17,7 @@ def fetch_price_data(code):
         "User-Agent": "Mozilla/5.0"
     }
     res = requests.get(url, headers=headers)
-    print(f"{code} 원본 응답:\n{res.text[:200]}")
+    # print(f"{code} 원본 응답:\n{res.text[:200]}")
     
     data_str = res.text.strip()
         
@@ -40,6 +40,15 @@ def fetch_price_data(code):
     df.reset_index(drop=True, inplace=True)
     return df
 
+def get_stock_name(code):
+    url = f"https://finance.naver.com/item/main.nhn?code={code}"
+    res = requests.get(url)
+    import re
+    m = re.search(r'<title>(.+?) : 네이버 금융</title>', res.text)
+    if m:
+        return m.group(1)
+    return code
+
 def analyze_stock(code):
     try:
         df = fetch_price_data(code)
@@ -59,6 +68,7 @@ def analyze_stock(code):
         if day1['close'] < 기준2 and day0['open'] > 기준1:
             return {
                 'code': code,
+                'name': name,
                 'day0_open': round(day0['open'], 2),
                 'day1_close': round(day1['close'], 2),
                 '기준1': round(기준1, 2),
@@ -89,7 +99,7 @@ def main():
     if results:
         msg = f"[📈 조건 충족 종목 알림 - {datetime.now().strftime('%Y-%m-%d %H:%M')}]\n"
         for r in results:
-            msg += f"\n🟢 종목코드: {r['code']}\n"
+            msg += f"\n🟢 {r['name']} ({r['code']})\n"
             msg += f" - 어제 MA5-1.7%: {r['기준1']}\n"
             msg += f" - 2일전 MA5-1.7%: {r['기준2']}\n"
             msg += f" - 전일 종가: {r['day1_close']}\n"
