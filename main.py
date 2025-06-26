@@ -16,7 +16,8 @@ def fetch_price_data(code):
         "User-Agent": "Mozilla/5.0"
     }
     res = requests.get(url, headers=headers)
-    data_str = res.text.strip()
+    
+    data_str = res.text.encode('utf-8').decode('utf-8-sig').strip()
     
     if not data_str or data_str == '[]':
         print(f"{code} 빈 데이터 또는 응답 없음")
