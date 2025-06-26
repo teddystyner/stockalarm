@@ -22,8 +22,9 @@ def fetch_price_data(code):
         print(f"{code} 빈 데이터 또는 응답 없음")
         return None
     
+   
     try:
-        data = json.loads(data_str[1:-1])
+        data = json.loads(data_str)  # [1:-1] 제거
     except Exception as e:
         print(f"{code} JSON 파싱 오류: {e}")
         return None
