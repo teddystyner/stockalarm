@@ -1,5 +1,4 @@
 name: Notify Stocks2
-id: notify-stocks
 
 on:
   schedule:
