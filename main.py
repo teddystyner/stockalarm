@@ -66,6 +66,7 @@ def analyze_stock(code):
         기준2 = day2['ma5'] * 0.983  # 2일전
 
         if day1['close'] < 기준2 and day0['open'] > 기준1:
+            name = get_stock_name(code)
             return {
                 'code': code,
                 'name': name,
