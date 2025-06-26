@@ -16,6 +16,8 @@ def fetch_price_data(code):
         "User-Agent": "Mozilla/5.0"
     }
     res = requests.get(url, headers=headers)
+    print(f"{code} 원본 응답:\n{res.text[:200]}")
+    
     
     data_str = res.text.encode('utf-8').decode('utf-8-sig').strip()
     
