@@ -2,6 +2,7 @@ import requests
 import json
 import pandas as pd
 from datetime import datetime, timedelta
+import ast
 
 # 🛠️ 텔레그램 설정 (GitHub Secrets로 주입)
 import os
@@ -18,18 +19,16 @@ def fetch_price_data(code):
     res = requests.get(url, headers=headers)
     print(f"{code} 원본 응답:\n{res.text[:200]}")
     
-    
-    data_str = res.text.encode('utf-8').decode('utf-8-sig').strip()
-    
+    data_str = res.text.strip()
+        
     if not data_str or data_str == '[]':
         print(f"{code} 빈 데이터 또는 응답 없음")
         return None
-    
-   
-    try:
-        data = json.loads(data_str)  # [1:-1] 제거
+       
+     try:
+        data = ast.literal_eval(data_str)
     except Exception as e:
-        print(f"{code} JSON 파싱 오류: {e}")
+        print(f"{code} 데이터 파싱 오류: {e}")
         return None
         
     df = pd.DataFrame(data[1:], columns=data[0])
